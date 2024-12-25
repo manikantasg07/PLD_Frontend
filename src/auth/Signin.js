@@ -18,6 +18,8 @@ import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useAuth } from "../contexts/user";
+
 
 
 
@@ -71,17 +73,19 @@ export default function Sigin(){
     const {register,handleSubmit,watch,formState: { errors },} = useForm();
     const [httpError,sethttpError] = useState("");
     const navigate = useNavigate();
+    const userContext = useAuth()
     const submitForm=async(info)=>{
-        try {
-            const data = await axios.post(process.env.REACT_APP_BACKEND_URL+"/users/signin",info,{ withCredentials: true } )
-            navigate("/dashboard");
+        // try {
+        //     const data = await axios.post(process.env.REACT_APP_BACKEND_URL+"/users/signin",info,{ withCredentials: true } )
+        //     navigate("/dashboard");
             
-        } catch (error) {
-            console.log(error.message);
-            if(error.response){
-                toast.error(error.response.data)
-            }
-        }
+        // } catch (error) {
+        //     console.log(error.message);
+        //     if(error.response){
+        //         toast.error(error.response.data)
+        //     }
+        // }
+        await userContext.signin(info);
     }
     return(
         <>

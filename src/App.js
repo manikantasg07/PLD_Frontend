@@ -4,6 +4,8 @@ import {BrowserRouter,Routes,Route} from "react-router-dom"
 import Sigin from './auth/Signin';
 import Sigup from './auth/Signup';
 import Dashboard from './goals/Dashboard';
+import ProtectRoute from './ProtectRoute';
+import AuthContextProvider from './contexts/user';
 import {
     useQuery,
     useMutation,
@@ -19,16 +21,18 @@ function App() {
   return (
 
     <QueryClientProvider client={queryClient}>
+       <BrowserRouter>
+      <AuthContextProvider>
       <ToastContainer />
-    <div className="App">
-        <BrowserRouter>
+      <div className="App">
           <Routes>
             <Route path="/signin" element={<Sigin />}></Route>
             <Route path='/signup' element={<Sigup />}></Route>
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/dashboard" element={<ProtectRoute><Dashboard /></ProtectRoute>} />
           </Routes>
-        </BrowserRouter>
-    </div>
+      </div>
+      </AuthContextProvider>
+      </BrowserRouter>
     </QueryClientProvider>
   );
 }
