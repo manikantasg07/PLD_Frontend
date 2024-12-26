@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import {BrowserRouter,Routes,Route} from "react-router-dom"
 import Sigin from './auth/Signin';
@@ -19,18 +18,15 @@ const queryClient = new QueryClient()
 
 function App() {
   return (
-
     <QueryClientProvider client={queryClient}>
        <BrowserRouter>
       <AuthContextProvider>
       <ToastContainer />
-      <div className="App">
           <Routes>
             <Route path="/signin" element={<Sigin />}></Route>
             <Route path='/signup' element={<Sigup />}></Route>
             <Route path="/dashboard" element={<ProtectRoute><Dashboard /></ProtectRoute>} />
           </Routes>
-      </div>
       </AuthContextProvider>
       </BrowserRouter>
     </QueryClientProvider>

@@ -5,6 +5,8 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
+    "@headlessui/react": "^2.2.0",
+    "@heroicons/react": "^2.2.0",
     "@mui/material": "^6.3.0",
     "@tanstack/react-query": "^5.62.9",
     "@testing-library/react": "^16.1.0",
@@ -16,6 +18,7 @@
     "react-router-dom": "^7.1.1",
     "react-scripts": "5.0.1",
     "react-toastify": "^11.0.2",
+    "tailwindcss": "^3.4.17",
     "web-vitals": "^4.2.4"
   },
   "scripts": {
