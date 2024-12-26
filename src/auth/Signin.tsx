@@ -18,11 +18,9 @@ import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useAuth } from "../contexts/user";
-
-
-
-
+// import { useAuth } from "../contexts/user";
+import { useAppDispatch,useAppSelector } from "../store/hooks";
+import { signInThunk } from "../store/users/authSlice";
 
 const Card = styled(MuiCard)(({ theme }) => ({
     display: 'flex',
@@ -68,24 +66,28 @@ const Card = styled(MuiCard)(({ theme }) => ({
   }));
 
 
-export default function Sigin(){
+  interface LoginInput {
+    username: string;
+    password: string;
+  }
+  
 
-    const {register,handleSubmit,watch,formState: { errors },} = useForm();
-    const [httpError,sethttpError] = useState("");
+export default function Sigin(){
+    const {register,handleSubmit,watch,formState: { errors },} = useForm<LoginInput>();
     const navigate = useNavigate();
-    const userContext = useAuth()
-    const submitForm=async(info)=>{
-        // try {
-        //     const data = await axios.post(process.env.REACT_APP_BACKEND_URL+"/users/signin",info,{ withCredentials: true } )
-        //     navigate("/dashboard");
-            
-        // } catch (error) {
-        //     console.log(error.message);
-        //     if(error.response){
-        //         toast.error(error.response.data)
-        //     }
-        // }
-        await userContext.signin(info);
+    // const userContext = useAuth()
+    const dispatch = useAppDispatch()
+    const auth=useAppSelector((state)=>state.user)
+    const submitForm=async(info:LoginInput)=>{
+      const result = await dispatch(signInThunk(info));
+      if(result.type==="authSlice/signin/fulfilled"){
+        navigate("/dashboard");
+        toast.success("Welcome");
+      }
+      else if(result.type==="authSlice/signin/rejected"){
+          toast.error(result.payload || "Sign In failed")
+      }
+      
     }
     return(
         <>
@@ -113,7 +115,7 @@ export default function Sigin(){
                     <FormControl>
                     <FormLabel htmlFor="username">Username</FormLabel>
                     <TextField
-                        error={errors.username}
+                  
                         {...register("username",{
                             required:"true"
                         })}
@@ -127,7 +129,7 @@ export default function Sigin(){
                     <FormControl>
                     <FormLabel htmlFor="password">Password</FormLabel>
                     <TextField
-                        error={errors.password}
+      
                         type="password"
                         {...register("password",{
                             required:"true"

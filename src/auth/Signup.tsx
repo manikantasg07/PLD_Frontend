@@ -18,10 +18,10 @@ import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useAuth } from "../contexts/user";
+// import { useAuth } from "../contexts/user";
 import { Link as RouterLink} from "react-router-dom";
-
-
+import { signUpThunk } from "../store/users/authSlice";
+import { useAppDispatch,useAppSelector } from "../store/hooks";
 
 
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -70,24 +70,31 @@ const Card = styled(MuiCard)(({ theme }) => ({
   }));
 
 
+interface SingupInput{
+  firstname:string,
+  lastname:string,
+  email:string,
+  username:string,
+  password:string,
+  confirmPassword:string
+}
+
 export default function Sigup(){
 
-    const {register,handleSubmit,watch,formState: { errors },} = useForm();
+    const {register,handleSubmit,watch,formState: { errors },} = useForm<SingupInput>();
     const navigate = useNavigate();
-    const userContext = useAuth()
-    const submitForm=async(info)=>{
-        // try {
-        //     const data = await axios.post(process.env.REACT_APP_BACKEND_URL+"/users/signup",info,{ withCredentials: true } )
-        //     navigate("/dashboard");
-            
-        // } catch (error) {
-        //     console.log(error);
-        //     if(error.response){
-        //         toast.error(error.response.data)
-        //     }
-            
-        // }
-        await userContext.signup(info);
+    const dispatch=useAppDispatch()
+    const submitForm=async(info:SingupInput)=>{
+
+       const result=await dispatch(signUpThunk(info))
+       if(result.type==="authSlice/signup/fulfilled"){
+        navigate("/dashboard");
+        toast.success("Welcome");
+      }
+      else if(result.type==="authSlice/signup/rejected"){
+          toast.error(result.payload || "Sign In failed")
+      }
+       
     }
     return(
         <>
@@ -115,7 +122,7 @@ export default function Sigup(){
             <FormControl>
               <FormLabel htmlFor="firstname">First Name</FormLabel>
               <TextField
-                error={errors.firstname}
+            
                 {...register("firstname",{
                     required:"First name is Required"
                 })}
@@ -130,7 +137,7 @@ export default function Sigup(){
             <FormControl>
               <FormLabel htmlFor="lastname">Last Name</FormLabel>
               <TextField
-                error={errors.lastname}
+        
                 {...register("lastname",{
                     required:"Lastname is Required"
                 })}
@@ -146,7 +153,7 @@ export default function Sigup(){
               <FormLabel htmlFor="email">Email</FormLabel>
               <TextField
               type="email"
-                error={errors.email}
+            
                 {...register("email",{
                     required:"Email is Required",
                     pattern: {
@@ -165,7 +172,7 @@ export default function Sigup(){
             <FormControl>
               <FormLabel htmlFor="username">Username</FormLabel>
               <TextField
-                error={errors.username}
+              
                 {...register("username",{
                     required:"Username is Required"
                 })}
@@ -180,7 +187,7 @@ export default function Sigup(){
             <FormControl>
               <FormLabel htmlFor="password">Password</FormLabel>
               <TextField
-                error={errors.password}
+            
                 type="password"
                 {...register("password",{
                     required:"password is Required",
@@ -207,7 +214,7 @@ export default function Sigup(){
             <FormControl>
               <FormLabel htmlFor="confirm password">Confirm Password</FormLabel>
               <TextField
-                error={errors.confirmPassword}
+              
                 type="password"
                 {...register("confirmPassword",{
                     required:"Confirn the Password",
