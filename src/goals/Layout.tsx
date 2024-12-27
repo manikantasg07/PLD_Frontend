@@ -10,12 +10,13 @@ import Sidenav from "./Sidenav";
         navigate("/signin");
     }
     return (
-      <div className='container min-h-screen w-screen grid grid-rows-layout grid-cols-layout '>
-          <div className='col-span-full h-full'>
+      <div className='min-h-screen w-screen grid grid-rows-layout grid-cols-layout '>
+          <div className='bg-gray-500 col-span-full h-full'>
             <Header />
           </div>
           <div className=''>
             <Sidenav />
+
           </div>
           <div className=''>Div3</div>
           <div className='col-span-full'>

@@ -9,12 +9,14 @@ import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
-
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Header(){
 
     const [anchorel,setanchorel]=useState<null | HTMLElement>(null)
     const open=Boolean(anchorel)
+    const navigate=useNavigate()
 
     function menu(event:any){
         setanchorel(event.currentTarget)
@@ -24,14 +26,19 @@ export default function Header(){
         setanchorel(null)
     }
 
+    async function logout(){
+        await axios.get(`${process.env.REACT_APP_BACKEND_URL}/users/logout`,{withCredentials:true})
+        navigate("/signin");
+    }
+
     return(
         <div className="flex justify-between items-center  bg-slate-500 h-full">
             <img className="ml-4" src="./logo.png" alt="LOGO"></img>
             <input type="text" className="w-2/6 h-10"/>
             <div className="flex justify-around">
             <BellIcon className="hover:cursor-pointer h-10 w-10"/>
-            <UserCircleIcon className=" text-blue-500 hover:cursor-pointer h-10 w-10 mx-4" onClick={menu}/>
-            {/* <Menu
+            <UserCircleIcon className=" text-black-500 hover:cursor-pointer h-10 w-10 mx-4" onClick={menu}/>
+            <Menu
             anchorEl={anchorel}
             id="account-menu"
             open={open}
@@ -78,13 +85,13 @@ export default function Header(){
             </ListItemIcon>
             Settings
             </MenuItem>
-            <MenuItem onClick={handleClose}>
+            <MenuItem onClick={logout}>
             <ListItemIcon>
                 <Logout fontSize="small" />
             </ListItemIcon>
             Logout
             </MenuItem>
-        </Menu> */}
+        </Menu>
             </div>
         </div> 
     );
