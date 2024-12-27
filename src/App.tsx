@@ -3,7 +3,7 @@ import {BrowserRouter,Routes,Route} from "react-router-dom"
 import Sigin from './auth/Signin';
 import Sigup from './auth/Signup';
 import Dashboard from './goals/Dashboard';
-// import AuthContextProvider from './contexts/user';
+import ProtectRoute from './ProtectRoute';
 import {
     useQuery,
     useMutation,
@@ -23,7 +23,7 @@ function App() {
           <Routes>
             <Route path="/signin" element={<Sigin />}></Route>
             <Route path='/signup' element={<Sigup />}></Route>
-            <Route path="/dashboard" element={<Dashboard  />}></Route>
+            <Route path="/dashboard" element={<ProtectRoute><Dashboard /></ProtectRoute>}></Route>
           </Routes>
       </BrowserRouter>
     </QueryClientProvider>

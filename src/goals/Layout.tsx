@@ -1,6 +1,8 @@
 import { useNavigate,Navigate } from "react-router-dom";
 import Header from "./Header";
 import axios from "axios";
+import Footer from "./Footer";
+import Sidenav from "./Sidenav";
   export default function Layout() {
     const navigate = useNavigate();
     async function logout(){
@@ -8,13 +10,17 @@ import axios from "axios";
         navigate("/signin");
     }
     return (
-      <div className='container min-h-screen grid grid-rows-layout grid-cols-layout '>
+      <div className='container min-h-screen w-screen grid grid-rows-layout grid-cols-layout '>
           <div className='col-span-full h-full'>
             <Header />
           </div>
-          <div className='bg-blue-500'>Div2</div>
-          <div className='bg-red-500'>Div3</div>
-          <div className='col-span-full bg-yellow-500'>Div4</div>
+          <div className=''>
+            <Sidenav />
+          </div>
+          <div className=''>Div3</div>
+          <div className='col-span-full'>
+            <Footer />
+          </div>
      </div>
     )
 }

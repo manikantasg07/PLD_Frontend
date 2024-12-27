@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-    content: ["./src/**/*.{html,js}"],
+    content: ["./src/**/*.{js,jsx,ts,tsx}"],
     theme: {
       extend: {
         gridTemplateRows:{
@@ -8,6 +8,9 @@ module.exports = {
         },
         gridTemplateColumns:{
             'layout':"20% 80%"
+        },
+        padding: {
+          '50': '50px',
         }
       },
     },

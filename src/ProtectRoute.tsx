@@ -1,20 +1,17 @@
 import React from "react";
 import { useAppDispatch,useAppSelector } from "./store/hooks";
 import { Navigate } from "react-router-dom";
-import { FC } from "react";
 
 interface MyComponentProps {
     children: React.ReactNode;
-  }
+}
 
-export default function  ProtectRoute:FC<MyComponentProps>({children}){
+export default function  ProtectRoute({children}:MyComponentProps){
     const auth = useAppSelector((state)=>state.user)
     if (!auth.isLoggedIn){
-        return <Navigate to="/signin" />
+        return <Navigate to="/signin" replace />
     }
-    else{
-        return children;
-    }
+    return <>{children}</>;
 }
 
 
