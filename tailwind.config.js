@@ -5,7 +5,7 @@ module.exports = {
     extend: {
       gridTemplateRows: {
         // Simple 16 row grid
-        "layout": "10% auto 10%"
+        "layout": "10% 90%"
       },
       gridTemplateColumns:{
         "layout" : "20% 80%"

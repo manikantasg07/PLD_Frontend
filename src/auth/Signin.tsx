@@ -81,7 +81,7 @@ export default function Sigin(){
     const submitForm=async(info:LoginInput)=>{
       const result = await dispatch(signInThunk(info));
       if(result.type==="authSlice/signin/fulfilled"){
-        navigate("/dashboard");
+        navigate("/app");
         toast.success("Welcome");
       }
       else if(result.type==="authSlice/signin/rejected"){

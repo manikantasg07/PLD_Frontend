@@ -2,7 +2,6 @@ import './App.css';
 import {BrowserRouter,Routes,Route} from "react-router-dom"
 import Sigin from './auth/Signin';
 import Sigup from './auth/Signup';
-import Dashboard from './goals/Dashboard';
 import ProtectRoute from './ProtectRoute';
 import {
     useQuery,
@@ -12,6 +11,9 @@ import {
     QueryClientProvider,
   } from '@tanstack/react-query';
   import { ToastContainer } from 'react-toastify';
+import Layout from './goals/Layout';
+import Dashboard from './goals/Dashboard';
+import Students from './goals/Students';
 
 const queryClient = new QueryClient()
 
@@ -21,9 +23,13 @@ function App() {
        <BrowserRouter>
       <ToastContainer />
           <Routes>
-            <Route path="/signin" element={<Sigin />}></Route>
-            <Route path='/signup' element={<Sigup />}></Route>
-            <Route path="/dashboard" element={<ProtectRoute><Dashboard /></ProtectRoute>}></Route>
+            <Route path="signin" element={<Sigin />}></Route>
+            <Route path='signup' element={<Sigup />}></Route>
+            <Route path="app" element={<ProtectRoute><Layout /></ProtectRoute>}>
+                <Route index element={<Dashboard />}></Route>
+                <Route path='students' element={<Students />}></Route>
+            </Route>
+
           </Routes>
       </BrowserRouter>
     </QueryClientProvider>

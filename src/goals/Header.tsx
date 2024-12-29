@@ -11,12 +11,16 @@ import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch,useAppSelector } from "../store/hooks";
+import { logoutThunk } from "../store/users/authSlice";
+import { toast } from "react-toastify";
 
 export default function Header(){
 
     const [anchorel,setanchorel]=useState<null | HTMLElement>(null)
     const open=Boolean(anchorel)
     const navigate=useNavigate()
+    const dispatch = useAppDispatch()
 
     function menu(event:any){
         setanchorel(event.currentTarget)
@@ -27,8 +31,14 @@ export default function Header(){
     }
 
     async function logout(){
-        await axios.get(`${process.env.REACT_APP_BACKEND_URL}/users/logout`,{withCredentials:true})
-        navigate("/signin");
+        const result = await dispatch(logoutThunk())
+        if(result.type==="authSlice/logout/fulfilled"){
+            navigate("/signin");
+        }
+        // await axios.get(`${process.env.REACT_APP_BACKEND_URL}/users/logout`,{withCredentials:true})
+       else{
+        toast.error("Sign In failed")
+       }
     }
 
     return(

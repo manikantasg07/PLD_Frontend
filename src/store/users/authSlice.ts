@@ -79,6 +79,14 @@ const signUpThunk = createAsyncThunk(
   }
 );
 
+const logoutThunk=createAsyncThunk(
+  "authSlice/logout",
+  async(thunkAPI)=>{
+    await axios.get(`${process.env.REACT_APP_BACKEND_URL}/users/logout`,{withCredentials:true})
+    return
+  }
+)
+
 const authSlice = createSlice({
   name: "authSlice",
   initialState,
@@ -111,9 +119,22 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.error =  (action.payload as string) || "An error occurred";
-      });
+      })
+      .addCase(logoutThunk.pending,(state)=>{
+        state.isLoading=true
+      })
+      .addCase(logoutThunk.fulfilled,(state)=>{
+        state.isLoading=false
+        state.user=null
+        state.isLoggedIn=false
+        state.isSuccess=true
+      })
+      .addCase(logoutThunk.rejected,(state)=>{
+          state.isError=true
+          state.isLoading=false
+      })
   },
 });
 
 export default authSlice.reducer;
-export { signInThunk, signUpThunk };
+export { signInThunk, signUpThunk,logoutThunk };

@@ -88,7 +88,7 @@ export default function Sigup(){
 
        const result=await dispatch(signUpThunk(info))
        if(result.type==="authSlice/signup/fulfilled"){
-        navigate("/dashboard");
+        navigate("/app");
         toast.success("Welcome");
       }
       else if(result.type==="authSlice/signup/rejected"){
